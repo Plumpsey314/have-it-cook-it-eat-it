@@ -1,3 +1,4 @@
+
 let responce = {
     mainIngredients: null,
     otherIngredients: [],
@@ -42,12 +43,12 @@ const appendIngredient = function(isMainIngredient){
 }
 
 const init = function(){
-    document.getElementById('recipe-finder-form').addEventListener('keypress', function(e){
+    document.getElementById('recipe-finder-form').addEventListener('keypress', (e) =>{
         if(e.key == 'Enter'){
             e.preventDefault();
         }
     })
-    document.getElementById('main-ingredients').addEventListener('keypress', function(e){
+    document.getElementById('main-ingredients').addEventListener('keypress', (e) =>{
         if(e.key == 'Enter'){
             e.preventDefault();
             if(document.querySelectorAll(".main-ingredient")[mainIngredientCount].value.length != 0){
@@ -56,7 +57,7 @@ const init = function(){
         }
         
     }); 
-    document.getElementById('other-ingredients').addEventListener('keypress', function(e){
+    document.getElementById('other-ingredients').addEventListener('keypress', (e) =>{
         if(e.key == 'Enter'){
             e.preventDefault();
             if(document.querySelectorAll(".other-ingredient")[otherIngredientCount].value.length != 0){
@@ -65,19 +66,19 @@ const init = function(){
         }
     }); 
     const timeIreleventBox = document.getElementById('time-does-not-matter');
-    timeIreleventBox.addEventListener('click', function(e){
+    timeIreleventBox.addEventListener('click', (e) =>{
         if(timeIreleventBox.checked){
             document.getElementById('time-restriction').value = "";
         }
     });
     const minCaloryIreleventBox = document.getElementById('calory-min-does-not-matter');
-    minCaloryIreleventBox.addEventListener('click', function(e){
+    minCaloryIreleventBox.addEventListener('click', (e) =>{
         if(minCaloryIreleventBox.checked){
             document.getElementById('calory-restriction-min').value = "";
         }
     });
     const maxCaloryIreleventBox = document.getElementById('calory-max-does-not-matter');
-    maxCaloryIreleventBox.addEventListener('click', function(e){
+    maxCaloryIreleventBox.addEventListener('click', (e) =>{
         if(maxCaloryIreleventBox.checked){
             document.getElementById('calory-restriction-max').value = "";
         }
@@ -150,6 +151,7 @@ const submit = function(event){
     responce.restrictions.lowFat = diets[3].checked;
     responce.restrictions.peanutAlergy = diets[4].checked;
     responce.restrictions.nonAlcoholic = diets[5].checked; 
+    initAPI(responce);
 
     location.replace('./recipes.html')
 }

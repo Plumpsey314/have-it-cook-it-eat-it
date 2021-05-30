@@ -1,0 +1,29 @@
+{
+  "name": "have-it-cook-it-eat-it",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plumpsey314/have-it-cook-it-eat-it.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Plumpsey314/have-it-cook-it-eat-it/issues"
+  },
+  "homepage": "https://github.com/Plumpsey314/have-it-cook-it-eat-it#readme",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "http-errors": "^1.8.0",
+    "path": "^0.12.7",
+    "unirest": "^0.6.0"
+  }
+}
