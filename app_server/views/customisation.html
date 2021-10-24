@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Customize what you want your meal to be</title>
+        <script>let responce = {
+            mainIngredients: null,
+            otherIngredients: [],
+            maxCookTime: undefined,
+            minCalories: 0,
+            maxCalories: undefined,
+            servingSize: undefined,
+            restrictions: {
+                vegan: false,
+                vegetarian: false,
+                lowCarb: false,
+                lowFat: false,
+                peanutAlergy: false,
+                nonAlcoholic: false,
+            }
+        }
+        
+        let mainIngredientCount = 0;
+        let otherIngredientCount = 0;
+        
+        const appendIngredient = function(isMainIngredient){
+            const node = document.createElement('li');
+            const label = document.createElement('label');
+            const labelText = document.createTextNode('Ingredients:');
+            const textbox = document.createElement('input');
+            textbox.type = 'textbox';
+            if(isMainIngredient){
+                textbox.className = 'main-ingredient';
+            }else{
+                textbox.className = 'other-ingredient';
+            }
+            label.appendChild(labelText);
+            node.appendChild(label);
+            node.appendChild(textbox);
+            if(isMainIngredient){
+                document.getElementById('main-ingredient-list').appendChild(node);
+                mainIngredientCount++;
+            }else{
+                document.getElementById('other-ingredient-list').appendChild(node);
+                otherIngredientCount++;
+            }
+        }
+        
+        const init = function(){
+            document.getElementById('recipe-finder-form').addEventListener('keypress', (e) =>{
+                if(e.key == 'Enter'){
+                    e.preventDefault();
+                }
+            })
+            document.getElementById('main-ingredients').addEventListener('keypress', (e) =>{
+                if(e.key == 'Enter'){
+                    e.preventDefault();
+                    if(document.querySelectorAll(".main-ingredient")[mainIngredientCount].value.length != 0){
+                        appendIngredient(true);
+                    }
+                }
+                
+            }); 
+            document.getElementById('other-ingredients').addEventListener('keypress', (e) =>{
+                if(e.key == 'Enter'){
+                    e.preventDefault();
+                    if(document.querySelectorAll(".other-ingredient")[otherIngredientCount].value.length != 0){
+                        appendIngredient(false);
+                    }
+                }
+            }); 
+            const timeIreleventBox = document.getElementById('time-does-not-matter');
+            timeIreleventBox.addEventListener('click', (e) =>{
+                if(timeIreleventBox.checked){
+                    document.getElementById('time-restriction').value = "";
+                }
+            });
+            const minCaloryIreleventBox = document.getElementById('calory-min-does-not-matter');
+            minCaloryIreleventBox.addEventListener('click', (e) =>{
+                if(minCaloryIreleventBox.checked){
+                    document.getElementById('calory-restriction-min').value = "";
+                }
+            });
+            const maxCaloryIreleventBox = document.getElementById('calory-max-does-not-matter');
+            maxCaloryIreleventBox.addEventListener('click', (e) =>{
+                if(maxCaloryIreleventBox.checked){
+                    document.getElementById('calory-restriction-max').value = "";
+                }
+            });
+            document.getElementById('submit').addEventListener('click', submit);
+        }
+        
+        const submit = function(event){
+            console.log('monkey');
+            const mainIngredients = document.querySelectorAll('.main-ingredient');
+            const otherIngredients = document.querySelectorAll('.other-ingredient');
+            let allMainIngredientString = '';
+            for(i = 0; i < mainIngredients.length; i++){
+                const ingredient = mainIngredients[i].value;
+                if(ingredient.length != 0){
+                    allMainIngredientString += (ingredient + ', ');
+                }
+            }
+            if(allMainIngredientString.length == 0){
+                alert('please include at least one main dish');
+                return;
+            }
+            responce.mainIngredients = allMainIngredientString;
+            for(i = 0; i < otherIngredients.length; i++){
+                responce.otherIngredients.push(otherIngredients[i].value);
+            }
+            const maxTime = document.getElementById('time-restriction').value;
+            const minCalories = document.getElementById('calory-restriction-min').value;
+            const maxCalories = document.getElementById('calory-restriction-max').value;
+            const intendedServingSize = document.getElementById('ideal-portion-size').value;
+            if(maxTime.length != 0 && !document.getElementById('time-does-not-matter').checked){
+                if(isNaN(maxTime)){
+                    alert("please enter a number for the time you are willing to take to cook");
+                    document.getElementById('time-restriction').value = "";
+                    return;
+                }else{
+                    responce.maxCookTime = parseInt(maxTime);
+                }
+            }
+            if(minCalories.length != 0 && !document.getElementById('calory-min-does-not-matter').checked){
+                if(isNaN(minCalories)){
+                    alert("please enter a number for the minimum desired calories in your meal");
+                    document.getElementById('calory-restriction-min').value = "";
+                    return;
+                }else{
+                    responce.minCalories = parseInt(minCalories);
+                }
+            }
+            if(maxCalories.length != 0 && ! document.getElementById('calory-max-does-not-matter').checked){
+                if(isNaN(maxCalories)){
+                    alert("please enter a number for the maximum desired calories in your meal");
+                    document.getElementById('calory-restriction-max').value = "";
+                    return;
+                }else{
+                    responce.maxCalories = parseInt(maxCalories);
+                }
+            }
+            if(intendedServingSize.length != 0){
+                if(isNaN(intendedServingSize)){
+                    alert("please enter a number for your ideal serving size");
+                    document.getElementById('ideal-portion-size').value = "";
+                    return;
+                }else{
+                    responce.servingSize = parseInt(intendedServingSize);
+                }
+            }
+            localStorage.setItem('formRes', responce);
+            window.location.href='/recipes';
+        }
+        document.addEventListener('DOMContentLoaded', init);</script>
+    </head>
+        <body>  
+            <a href="./"> <button style="color: #7dd;"> back </button></a>
+            
+            <div id="recipe-finder-form">
+                <h1> What are your recipe specifications?  </h1>
+                <form>
+                    <div id="main-ingredients">
+                        What do you want your main ingredient to be? 
+                        <div class="required">*Required</div>
+                        <br>
+                        <ul id="main-ingredient-list">
+                            <li>
+                                <label> Ingredient:</label>
+                                <input type="text" class="main-ingredient">
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <div id="other-ingredients">
+                        What other ingredients do you have?
+                        <ul id="other-ingredient-list">
+                            <li>
+                                 <label> Ingredient:</label>
+                                 <input type="text" class="other-ingredient">
+                             </li>
+                        </ul>
+                    </div>
+                    <div id="time-restrictions">
+                        How many minutes are you willing to set aside to cook this meal?
+                        <br>
+                        <label> Time to cook: </label>
+                        <input type="text" id="time-restriction">
+                        <br>
+                        <label> No Time Restrictions </label> <input type="checkbox" id="time-does-not-matter">
+                    </div>
+                    <div id="calory-restrictions">
+                        What is the Calory Range that you want this meal to be?
+                        <br>
+                        <label> Minimum Number Of Calories: </label>
+                        <input type="text" id="calory-restriction-min">
+                        <br>
+                        <label> No Minimum Calory Restrictions </label> <input type="checkbox" id="calory-min-does-not-matter">
+                        <br>
+                        <label> Maximum Number Of Calories: </label>
+                        <input type="text" id="calory-restriction-max">
+                        <br>
+                        <label> No Maximim Calory Restrictions </label> <input type="checkbox" id="calory-max-does-not-matter">
+                    </div>
+                    <div id="portion-restrictions">
+                        How many people are you intending to serve?
+                        <br>
+                        <input type="text" id="ideal-portion-size">
+                    </div>
+                    <div id="dietary-restrictions">
+                        Any Dietary restrictions?
+                        <ul>
+                            <li> <label> Vegan </label> <input type="checkbox" class="restriction"> </li>
+                            <li> <label> Vegetarian </label> <input type="checkbox" class="restriction"> </li>
+                            <li> <label> Low Carb </label> <input type="checkbox" class="restriction"> </li>
+                            <li> <label> Low Fat </label> <input type="checkbox" class="restriction"> </li>
+                            <li> <label> Peanut Alergy </label> <input type="checkbox" class="restriction"> </li>
+                            <li> <label> No Alcohol </label> <input type="checkbox" class="restriction"> </li>
+                        </ul>
+                    </div>
+                    <div id="submit">
+                        <input type="button" value="submit">
+                    </div>
+                </form>
+        </div>
+    </body>
+</html>

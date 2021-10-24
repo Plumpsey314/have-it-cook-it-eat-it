@@ -1,4 +1,3 @@
-
 let responce = {
     mainIngredients: null,
     otherIngredients: [],
@@ -85,8 +84,9 @@ const init = function(){
     });
     document.getElementById('submit').addEventListener('click', submit);
 }
+
 const submit = function(event){
-    event.preventDefault();
+    console.log('monkey');
     const mainIngredients = document.querySelectorAll('.main-ingredient');
     const otherIngredients = document.querySelectorAll('.other-ingredient');
     let allMainIngredientString = '';
@@ -108,7 +108,7 @@ const submit = function(event){
     const minCalories = document.getElementById('calory-restriction-min').value;
     const maxCalories = document.getElementById('calory-restriction-max').value;
     const intendedServingSize = document.getElementById('ideal-portion-size').value;
-    if(maxTime.length != 0){
+    if(maxTime.length != 0 && !document.getElementById('time-does-not-matter').checked){
         if(isNaN(maxTime)){
             alert("please enter a number for the time you are willing to take to cook");
             document.getElementById('time-restriction').value = "";
@@ -117,7 +117,7 @@ const submit = function(event){
             responce.maxCookTime = parseInt(maxTime);
         }
     }
-    if(minCalories.length != 0){
+    if(minCalories.length != 0 && !document.getElementById('calory-min-does-not-matter').checked){
         if(isNaN(minCalories)){
             alert("please enter a number for the minimum desired calories in your meal");
             document.getElementById('calory-restriction-min').value = "";
@@ -126,7 +126,7 @@ const submit = function(event){
             responce.minCalories = parseInt(minCalories);
         }
     }
-    if(maxCalories.length != 0){
+    if(maxCalories.length != 0 && ! document.getElementById('calory-max-does-not-matter').checked){
         if(isNaN(maxCalories)){
             alert("please enter a number for the maximum desired calories in your meal");
             document.getElementById('calory-restriction-max').value = "";
@@ -137,7 +137,7 @@ const submit = function(event){
     }
     if(intendedServingSize.length != 0){
         if(isNaN(intendedServingSize)){
-            alert("please enter a number your ideal serving size");
+            alert("please enter a number for your ideal serving size");
             document.getElementById('ideal-portion-size').value = "";
             return;
         }else{
@@ -151,8 +151,7 @@ const submit = function(event){
     responce.restrictions.lowFat = diets[3].checked;
     responce.restrictions.peanutAlergy = diets[4].checked;
     responce.restrictions.nonAlcoholic = diets[5].checked; 
-    initAPI(responce);
-
-    location.replace('./recipes.html')
+    document.getElementById('responce').value = responce;
+    window.location.href='/recipes';
 }
 document.addEventListener('DOMContentLoaded', init);

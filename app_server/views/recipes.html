@@ -2,12 +2,13 @@
  <html>
      <head>
         <title> Recipe Finder </title>
-        <link href="style.css" rel="stylesheet"></head>
+        <link href="../style.css" rel="stylesheet">
      </head>
      <body>
-        <a href="index.html"> <button style="color: #7dd;"> back </button></a>
+        <a href="/"> <button style="color: #7dd;"> back </button></a>
+        <a href="/customisation"> <button style="color: #7dd;"> back to form </button></a>
         <div id = "Recipes">
-            <h1>Recipes</h1>
+            <h1></h1>
             <button style="color: #7dd;"> <h1> Recipe 1 </h1></button>
             <button style="color: #7dd;"> <h1> Recipe 2 </h1></button>
             <button style="color: #7dd;"> <h1> Recipe 3 </h1></button>
@@ -21,4 +22,9 @@
             <button style="color: #7dd;"> <h1> Recipe 10 </h1></button>
         </div>
      </body>
+     <foot>
+      <script>
+         document.querySelectorAll('h1')[0].appendChild(document.createTextNode(varOne));
+      </script>
+     </foot>
 </html>
